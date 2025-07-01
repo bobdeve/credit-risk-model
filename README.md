@@ -1,78 +1,118 @@
 📖 Project Explanation
-This project is a complete Credit Risk Modeling Pipeline developed as part of a machine learning assignment. The goal is to build a system that can identify high-risk customers based on their transaction history using classification models.
+This project implements a full Credit Risk Modeling Pipeline that detects potentially high-risk customers based on historical transaction data. It covers every stage of a real-world ML lifecycle—from preprocessing and model selection to deployment and CI/CD.
 
-The workflow is structured into the following key steps:
-
+🚀 Project Highlights
 🔹 1. Data Preparation
-Raw transaction data is cleaned and enriched.
+Cleaned raw transaction data.
 
-Features such as Recency, Frequency, and Monetary are calculated (RFM Analysis).
+Extracted RFM features (Recency, Frequency, Monetary).
 
-Risk labels are assigned using KMeans clustering, creating a proxy target for supervised modeling.
+Used KMeans clustering to generate a proxy risk label (is_high_risk) for supervised training.
 
 🔹 2. Preprocessing Pipeline
-Categorical features are one-hot encoded.
+Built using ColumnTransformer:
 
-Numerical features are standardized.
+Categorical variables → One-Hot Encoding.
 
-All transformations are wrapped into a ColumnTransformer pipeline for reusability and consistency.
+Numerical variables → Standard Scaler.
+
+Ensures robust and consistent input transformations across the pipeline.
 
 🔹 3. Model Training & Experiment Tracking
-Models trained: Logistic Regression and Random Forest
+Models Used:
 
-Each model is evaluated using:
+Logistic Regression
 
-Accuracy
+Random Forest Classifier
 
-Precision
+Hyperparameter Tuning:
 
-Recall
+Used GridSearchCV with cross-validation to tune:
 
-F1 Score
+Logistic Regression (C, penalty)
 
-ROC-AUC
+Random Forest (n_estimators, max_depth)
 
-GridSearchCV is used to perform hyperparameter tuning.
+Evaluation Metrics Tracked via MLflow:
 
-MLflow is used to:
+Model	Accuracy	Precision	Recall	F1 Score	ROC-AUC
+LogisticRegression	0.9998	1.0000	0.9974	0.9987	1.0000
+RandomForest	0.9998	1.0000	0.9974	0.9987	1.0000
 
-Track experiments and metrics
+Model Management:
 
-Log and version models
+Models and metrics are tracked in MLflow
 
-Register the best-performing model
+The best model is registered in the MLflow Model Registry under BestCreditModel
 
-🔹 4. Model Deployment (API)
-A FastAPI app is built to expose a /predict endpoint.
+🌐 API Deployment with FastAPI
+Developed an API using FastAPI:
 
-It loads the best model from the MLflow Model Registry.
+Endpoint: POST /predict
 
-Accepts a new customer's data and returns a risk probability score.
+Accepts customer features in JSON format
 
-The app is containerized using Docker and easily runnable via docker-compose.
+Returns a risk_probability score
 
-🔹 5. Continuous Integration (CI)
-A GitHub Actions pipeline is configured to run on every push:
+The API:
 
-flake8 checks for code quality
+Loads the best model from the MLflow Model Registry
 
-pytest runs unit tests
+Is containerized using Docker
 
-The pipeline ensures clean, tested, and maintainable code.
+Can be run locally using docker-compose up --build
 
-🔹 6. Unit Testing
-Core data processing functions are tested using pytest.
+🧪 Unit Testing
+Includes tests for data loading and processing using pytest
 
-Tests ensure that data loading, splitting, and transformations work as expected.
+Ensures that helper functions behave correctly and robustly
 
-This project demonstrates not just model building, but real-world machine learning workflow design, including:
+🔄 CI/CD with GitHub Actions
+GitHub Actions workflow (.github/workflows/ci.yml) automates:
 
-Data versioning
+Code style check using flake8
 
-Model tracking
+Running all unit tests with pytest
 
-Reproducibility
+The build fails if linting or tests fail, promoting clean and tested code
 
-API integration
+📁 Technologies Used
+Python, Pandas, Scikit-learn
 
-Automation via CI/CD
+MLflow (Tracking + Registry)
+
+FastAPI
+
+Docker & Docker Compose
+
+GitHub Actions (CI)
+
+Pytest & Flake8
+
+💡 How to Run Locally
+Clone the repo:
+
+bash
+Copy
+Edit
+git clone https://github.com/your-username/credit-risk-model
+cd credit-risk-model
+Build and Run the API:
+
+bash
+Copy
+Edit
+docker-compose up --build
+Access API at:
+
+bash
+Copy
+Edit
+http://localhost:8000/docs
+Access MLflow UI:
+
+bash
+Copy
+Edit
+mlflow ui
+Visit http://localhost:5000
