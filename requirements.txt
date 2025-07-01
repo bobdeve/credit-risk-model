@@ -4,3 +4,10 @@ scikit-learn
 pandas
 numpy
 matplotlib
+fastapi
+uvicorn[standard]
+mlflow
+scikit-learn
+pydantic
+flake8
+pytest
